@@ -1,7 +1,5 @@
 import Feed from "@components/Feed"
-global.performance = global.performance || {
-  now: () => new Date().getTime(),
-};
+
 const Home = () => {
   return (
     <section className="w-full flex-center flex-col">
