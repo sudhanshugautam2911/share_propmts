@@ -4,12 +4,14 @@ import { useState } from 'react'
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
 
   const { data: session } = useSession();
   const pathName = usePathname();
-
+  const router = useRouter();
+  
   const [copied, setCopied] = useState(false)
   // I myself tried true/false, original code was little different, if in future it cause problem then use orginal code
   const handleCopy = () => {
@@ -19,10 +21,16 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
       setCopied(false)
     }, 3000);
   }
+  const handleProfile = () => {
+
+    if(post.creator._id === session?.user.id) return router.push("/profile")
+    
+    return router.push(`/profile/${post.creator._id}?name=${post.creator.username}`)
+  }
   return (
     <section className='prompt_card'>
-      <div className='flex justify-between items-start gap-5'>
-        <div className='flex-1 flex justify-start items-center gap-3 cursor-pointer'>
+      <div className='flex justify-between items-start gap-5' >
+        <div className='flex-1 flex justify-start items-center gap-3 cursor-pointer' onClick={handleProfile}>
           <Image
             src={post.creator.image}
             alt='user_image'
