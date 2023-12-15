@@ -28,7 +28,7 @@ const Feed = () => {
   const [searchText, setSearchText] = useState('')
   const [searchedResults, setSearchedResults] = useState([])
 
-  
+
   useEffect(() => {
 
     const fetchPosts = async () => {
@@ -38,6 +38,11 @@ const Feed = () => {
     }
 
     fetchPosts();
+    
+    const intervalId = setInterval(fetchPosts, 5000);
+
+    // Clean up the interval on unmount
+    return () => clearInterval(intervalId);
 
   }, [])
 
@@ -57,7 +62,7 @@ const Feed = () => {
 
     const searchResult = filterPrompts(e.target.value);
     setSearchedResults(searchResult);
-    
+
   }
   const handleTagClick = (tagName) => {
     setSearchText(tagName)

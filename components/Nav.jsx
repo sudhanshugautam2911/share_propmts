@@ -56,7 +56,7 @@ const Nav = () => {
                         </div>
                     ) : (
                         <>
-                            {providers && Object.values(providers).map((provider) => (
+                            {providers ? Object.values(providers).map((provider) => (
                                 <button
                                     type='button'
                                     key={provider.name}
@@ -65,8 +65,12 @@ const Nav = () => {
                                 >
                                     Sign In
                                 </button>
-                                
-                            ))}
+
+                            )) : (
+                                <div className='text-sm'>
+                                    Some Problem with your network...
+                                </div>
+                            )}
                         </>
                     )
                 }
@@ -83,29 +87,29 @@ const Nav = () => {
                                 className='rounded-full'
                                 alt='profile'
                                 // onClick={()=> setToggleDropDown(!toggleDropDown)} this is not good idea
-                                onClick={()=> setToggleDropDown((prev) => !prev)}
+                                onClick={() => setToggleDropDown((prev) => !prev)}
                             />
                             {toggleDropDown && (
                                 <div className='dropdown'>
                                     <Link href='/profile'
-                                    className='dropdown_link'
-                                    onClick={()=> setToggleDropDown(false)}
+                                        className='dropdown_link'
+                                        onClick={() => setToggleDropDown(false)}
                                     >
                                         My Profile
                                     </Link>
                                     <Link href='/create-prompt'
-                                    className='dropdown_link'
-                                    onClick={()=> setToggleDropDown(false)}
+                                        className='dropdown_link'
+                                        onClick={() => setToggleDropDown(false)}
                                     >
                                         Create Prompt
                                     </Link>
                                     <button
-                                    type='button'
-                                    onClick={() =>{
-                                        setToggleDropDown(false);
-                                        signOut()
-                                    }}
-                                    className='mt-5 w-full black_btn'
+                                        type='button'
+                                        onClick={() => {
+                                            setToggleDropDown(false);
+                                            signOut()
+                                        }}
+                                        className='mt-5 w-full black_btn'
                                     >
                                         Sign Out
                                     </button>
