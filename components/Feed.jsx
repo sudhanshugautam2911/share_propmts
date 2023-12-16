@@ -28,21 +28,14 @@ const Feed = () => {
   const [searchText, setSearchText] = useState('')
   const [searchedResults, setSearchedResults] = useState([])
 
-
+  const fetchPosts = async () => {
+    const response = await fetch('/api/prompt');
+    const data = await response.json();
+    setPosts(data);
+  }
   useEffect(() => {
 
-    const fetchPosts = async () => {
-      const response = await fetch('/api/prompt');
-      const data = await response.json();
-      setPosts(data);
-    }
-
     fetchPosts();
-    
-    const intervalId = setInterval(fetchPosts, 5000);
-
-    // Clean up the interval on unmount
-    return () => clearInterval(intervalId);
 
   }, [])
 
