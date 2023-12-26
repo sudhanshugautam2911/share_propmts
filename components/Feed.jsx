@@ -25,19 +25,20 @@ const Feed = () => {
   const [posts, setPosts] = useState([])
 
   // search states
-  const [searchText, setSearchText] = useState('')
-  const [searchedResults, setSearchedResults] = useState([])
+  const [searchText, setSearchText] = useState('');
+  const [searchTimeout, setSearchTimeout] = useState(null);
+  const [searchedResults, setSearchedResults] = useState([]);
 
   const fetchPosts = async () => {
-    const response = await fetch('/api/prompt');
+    const response = await fetch("/api/prompt");
     const data = await response.json();
+
     setPosts(data);
-  }
+  };
+
   useEffect(() => {
-
     fetchPosts();
-
-  }, [])
+  }, []);
 
   // main searchin part, using regex
   const filterPrompts = (searchtext) => {
@@ -51,12 +52,17 @@ const Feed = () => {
   };
 
   const handleSearchChange = (e) => {
-    setSearchText(e.target.value)
+    clearTimeout(searchTimeout);
+    setSearchText(e.target.value);
 
-    const searchResult = filterPrompts(e.target.value);
-    setSearchedResults(searchResult);
-
-  }
+    // debounce method
+    setSearchTimeout(
+      setTimeout(() => {
+        const searchResult = filterPrompts(e.target.value);
+        setSearchedResults(searchResult);
+      }, 500)
+    );
+  };
   const handleTagClick = (tagName) => {
     setSearchText(tagName)
     const searchResult = filterPrompts(tagName);
